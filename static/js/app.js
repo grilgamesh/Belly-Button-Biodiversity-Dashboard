@@ -11,12 +11,6 @@ url.then(function(dataThing) {
 
 
 
-// Update the restyled plot's values
-function updatePlotly(newdata) {
-    Plotly.restyle("pie", "values", [newdata]);
-}
-
-
 function optionChanged(testSubject) {
     //replace display with selected value
     console.log(testSubject)
