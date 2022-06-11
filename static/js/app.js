@@ -59,14 +59,66 @@ function optionChanged(testSubject) {
         let metadata = data2.metadata[subjectNumb];
         console.log(metadata);
         let keys = Object.keys(metadata);
-        let metaText = "";
 
+        // start building the metadata html to display in the infobox
+        let metaText = "Test Subject " + testSubject + "<hr>";
+        //loop through the keys and insert the relevant text into the metadata
         for (i = 0; i < keys.length; i++) {
             metaText = metaText + keys[i] + ": " + metadata[keys[i]] + "<br>";
         }
+        // replace the contents of the infobox with the new metadata html string
         d3.select('#sample-metadata').html(metaText);
 
+
+        //new pie chart
+
+        //find the total number of microbes
+        var microbeTotal = 0;
+
+        for (let i = 0; i < data2.samples[subjectNumb].sample_values.length; i++) {
+            microbeTotal = microbeTotal + data2.samples[subjectNumb].sample_values[i]
+        }
+
+        var microbeTotalTop10 = 0;
+
+        for (let i = 0; i < newValues.length; i++) {
+            microbeTotalTop10 = microbeTotalTop10 + newValues[i]
+        };
+
+        console.log(microbeTotal);
+        console.log(microbeTotalTop10);
+        //create a final 'other' dummy microbe and append it to the top ten
+        newValues.push(microbeTotal - microbeTotalTop10);
+        newLabels.push("other")
+
+        console.log("pieValues: " + newValues.length + ", pielabels: " + newLabels.length)
+
+        // Trace for the Data
+        let trace1 = {
+            type: "pie",
+            values: newValues,
+            labels: newLabels,
+            textinfo: "label+percent",
+            textposition: "outside",
+            automargin: false
+        };
+
+        // Data trace array
+        traceData = [trace1];
+
+        // Apply title to the layout
+        layout = {
+            height: "600px",
+            title: "...and with others grouped together.",
+            showlegend: false
+        };
+        // Render the plot to the div tag with id "plot"
+        Plotly.newPlot("pie", traceData, layout);
+
+
         //new bubble chart
+
+        // repeat for loop but this time using ALL of the data (not just top ten)
         for (let i = 0; i < data2.samples[subjectNumb].sample_values.length; i++) {
             newValues[i] = data2.samples[subjectNumb].sample_values[i];
             newLabels[i] = data2.samples[subjectNumb].otu_ids[i];
@@ -84,13 +136,14 @@ function optionChanged(testSubject) {
         };
         data = [trace3];
         layout = {
-            title: 'Bubble Chart Hover Text',
+            title: 'Diversity of Ompholosian Fauna',
             showlegend: false,
             height: 500,
             width: 1300
         };
         Plotly.newPlot('bubble', data, layout);
     });
+
 }
 
 
