@@ -59,15 +59,12 @@ function optionChanged(testSubject) {
         let metadata = data2.metadata[subjectNumb];
         console.log(metadata);
         let keys = Object.keys(metadata);
-        let infoBox = d3.select('#sample-metadata');
-        infoBox.selectAll("p").remove()
-            .data(metadata.age.toString()).enter()
-            .append("p").text(`${keys[0]}: ${metadata[keys[0]]}`)
-            .append("p").text(`${keys[1]}: ${metadata[keys[1]]}`)
-            .append("p").text(`${keys[2]}: ${metadata[keys[2]]}`)
-            .append("p").text(`${keys[3]}: ${metadata[keys[3]]}`)
-            .append("p").text(`${keys[4]}: ${metadata[keys[4]]}`)
-            .append("p").text(`${keys[5]}: ${metadata[keys[5]]}`);
+        let metaText = "";
+
+        for (i = 0; i < keys.length; i++) {
+            metaText = metaText + keys[i] + ": " + metadata[keys[i]] + "<br>";
+        }
+        d3.select('#sample-metadata').html(metaText);
 
         //new bubble chart
         for (let i = 0; i < data2.samples[subjectNumb].sample_values.length; i++) {
