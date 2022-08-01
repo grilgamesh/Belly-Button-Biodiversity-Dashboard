@@ -1,6 +1,6 @@
-# IWV
+# Interactive Web Visualisations
 week 14 homework: Interactive Web Visualisations
-
+live at https://grilgamesh.github.io/Belly-Button-Biodiversity-Dashboard/
 
 This project reads an external Json file, and creates two functions: an update, an an init, then calls the init function.
 
